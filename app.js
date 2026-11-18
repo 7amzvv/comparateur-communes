@@ -2,6 +2,7 @@ const form = document.querySelector("#search-form");
 const field = document.querySelector("#query");
 const submit = form.querySelector("button");
 const statusMessage = document.querySelector("#status");
+const resultsList = document.querySelector("#commune-results");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -10,6 +11,7 @@ form.addEventListener("submit", async (event) => {
     }
 
     const search = field.value.trim();
+    resultsList.replaceChildren();
     if (!search) {
         statusMessage.textContent = "Saisis un nom ou un code postal.";
         return;
@@ -19,6 +21,15 @@ form.addEventListener("submit", async (event) => {
     statusMessage.textContent = "Recherche en cours…";
     try {
         const communes = await findCommunes(search);
+        for (const commune of communes) {
+            const item = document.createElement("li");
+            const department = commune.departement;
+            const departmentLabel = department?.nom
+                ? `${department.nom}${department.code ? ` (${department.code})` : ""}`
+                : department?.code ?? "Département indisponible";
+            item.textContent = `${commune.nom} — ${departmentLabel}`;
+            resultsList.append(item);
+        }
         statusMessage.textContent = communes.length === 0
             ? `Aucune commune trouvée pour « ${search} ».`
             : `Recherche « ${search} » · ${communes.length} résultat(s) reçu(s).`;
