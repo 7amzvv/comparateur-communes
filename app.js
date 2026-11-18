@@ -4,6 +4,8 @@ const submit = form.querySelector("button");
 const statusMessage = document.querySelector("#status");
 const resultsList = document.querySelector("#commune-results");
 const slot = document.querySelector("#slot");
+const comparison = document.querySelector("#comparison");
+const selectedCommunes = { a: null, b: null };
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -46,6 +48,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 function showCommune(commune, departmentLabel) {
+    selectedCommunes[slot.value] = commune;
     const section = document.querySelector(`#commune-${slot.value}`);
     const details = section.querySelector(".commune-details");
     const communeName = section.querySelector(".commune-name");
@@ -65,7 +68,29 @@ function showCommune(commune, departmentLabel) {
     details.hidden = false;
     section.querySelector(".empty-slot").hidden = true;
     statusMessage.textContent = `${commune.nom} ajoutée dans Commune ${slot.value.toUpperCase()}.`;
+    comparePopulations();
     communeName.focus();
+}
+
+function comparePopulations() {
+    const { a, b } = selectedCommunes;
+    if (!a || !b) {
+        return;
+    }
+    if (!Number.isFinite(a.population) || !Number.isFinite(b.population)) {
+        comparison.textContent = "Comparaison indisponible : une population manque.";
+        return;
+    }
+
+    const difference = Math.abs(a.population - b.population);
+    if (difference === 0) {
+        comparison.textContent = `${a.nom} (A) et ${b.nom} (B) ont la même population. Écart : 0 habitant.`;
+        return;
+    }
+    const larger = a.population > b.population ? `${a.nom} (A)` : `${b.nom} (B)`;
+    const smaller = a.population > b.population ? `${b.nom} (B)` : `${a.nom} (A)`;
+    const unit = difference === 1 ? "habitant" : "habitants";
+    comparison.textContent = `${larger} compte ${difference.toLocaleString("fr-FR")} ${unit} de plus que ${smaller}.`;
 }
 
 async function findCommunes(search) {

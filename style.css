@@ -1,0 +1,16 @@
+.communes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.communes section {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 36rem) {
+    .communes {
+        grid-template-columns: 1fr;
+    }
+}

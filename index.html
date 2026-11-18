@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Comparateur de communes</title>
+    <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
 <body>
@@ -21,6 +22,7 @@
         </form>
         <p id="status" role="status"></p>
         <ul id="commune-results" aria-label="Communes trouvées"></ul>
+        <div class="communes">
         <section id="commune-a" aria-labelledby="slot-title-a">
             <h2 id="slot-title-a">Commune A</h2>
             <p class="empty-slot">Choisis une commune pour cet emplacement.</p>
@@ -47,6 +49,8 @@
                 </dl>
             </div>
         </section>
+        </div>
+        <p id="comparison" role="status">Choisis deux communes pour comparer leur population.</p>
     </main>
 </body>
 </html>
