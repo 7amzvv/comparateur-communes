@@ -7,6 +7,14 @@ const slot = document.querySelector("#slot");
 const comparison = document.querySelector("#comparison");
 const selectedCommunes = { a: null, b: null };
 
+slot.addEventListener("change", updateResultLabels);
+
+function updateResultLabels() {
+    for (const button of resultsList.querySelectorAll("button")) {
+        button.textContent = `${button.dataset.communeLabel} — Ajouter à Commune ${slot.value.toUpperCase()}`;
+    }
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submit.disabled) {
@@ -32,14 +40,15 @@ form.addEventListener("submit", async (event) => {
                 : department?.code ?? "Département indisponible";
             const button = document.createElement("button");
             button.type = "button";
-            button.textContent = `${commune.nom} — ${departmentLabel}`;
+            button.dataset.communeLabel = `${commune.nom} — ${departmentLabel}`;
             button.addEventListener("click", () => showCommune(commune, departmentLabel));
             item.append(button);
             resultsList.append(item);
         }
+        updateResultLabels();
         statusMessage.textContent = communes.length === 0
             ? `Aucune commune trouvée pour « ${search} ».`
-            : `Recherche « ${search} » · ${communes.length} résultat(s) reçu(s).`;
+            : `Choisis un résultat pour remplir Commune ${slot.value.toUpperCase()}.`;
     } catch {
         statusMessage.textContent = "La recherche a échoué. Réessaie dans un instant.";
     } finally {
