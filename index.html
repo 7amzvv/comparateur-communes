@@ -10,24 +10,42 @@
     <main>
         <h1>Comparateur de communes</h1>
         <form id="search-form" novalidate>
+            <label for="slot">Emplacement à remplir</label>
+            <select id="slot" name="slot">
+                <option value="a">Commune A</option>
+                <option value="b">Commune B</option>
+            </select>
             <label for="query">Nom ou code postal</label>
             <input id="query" name="query" type="search" required>
             <button type="submit">Rechercher</button>
         </form>
         <p id="status" role="status"></p>
         <ul id="commune-results" aria-label="Communes trouvées"></ul>
-        <section id="commune-details" aria-labelledby="commune-name" hidden>
-            <h2 id="commune-name" tabindex="-1"></h2>
-            <dl>
-                <dt>Population</dt>
-                <dd id="population"></dd>
-                <dt>Département</dt>
-                <dd id="department"></dd>
-                <dt>Région</dt>
-                <dd id="region"></dd>
-                <dt>Codes postaux</dt>
-                <dd id="postal-codes"></dd>
-            </dl>
+        <section id="commune-a" aria-labelledby="slot-title-a">
+            <h2 id="slot-title-a">Commune A</h2>
+            <p class="empty-slot">Choisis une commune pour cet emplacement.</p>
+            <div class="commune-details" hidden>
+                <h3 class="commune-name" tabindex="-1"></h3>
+                <dl>
+                    <dt>Population</dt><dd class="population"></dd>
+                    <dt>Département</dt><dd class="department"></dd>
+                    <dt>Région</dt><dd class="region"></dd>
+                    <dt>Codes postaux</dt><dd class="postal-codes"></dd>
+                </dl>
+            </div>
+        </section>
+        <section id="commune-b" aria-labelledby="slot-title-b">
+            <h2 id="slot-title-b">Commune B</h2>
+            <p class="empty-slot">Choisis une commune pour cet emplacement.</p>
+            <div class="commune-details" hidden>
+                <h3 class="commune-name" tabindex="-1"></h3>
+                <dl>
+                    <dt>Population</dt><dd class="population"></dd>
+                    <dt>Département</dt><dd class="department"></dd>
+                    <dt>Région</dt><dd class="region"></dd>
+                    <dt>Codes postaux</dt><dd class="postal-codes"></dd>
+                </dl>
+            </div>
         </section>
     </main>
 </body>

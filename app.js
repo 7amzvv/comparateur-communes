@@ -3,12 +3,7 @@ const field = document.querySelector("#query");
 const submit = form.querySelector("button");
 const statusMessage = document.querySelector("#status");
 const resultsList = document.querySelector("#commune-results");
-const details = document.querySelector("#commune-details");
-const communeName = document.querySelector("#commune-name");
-const population = document.querySelector("#population");
-const departmentValue = document.querySelector("#department");
-const region = document.querySelector("#region");
-const postalCodes = document.querySelector("#postal-codes");
+const slot = document.querySelector("#slot");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -18,7 +13,6 @@ form.addEventListener("submit", async (event) => {
 
     const search = field.value.trim();
     resultsList.replaceChildren();
-    details.hidden = true;
     if (!search) {
         statusMessage.textContent = "Saisis un nom ou un code postal.";
         return;
@@ -52,6 +46,13 @@ form.addEventListener("submit", async (event) => {
 });
 
 function showCommune(commune, departmentLabel) {
+    const section = document.querySelector(`#commune-${slot.value}`);
+    const details = section.querySelector(".commune-details");
+    const communeName = section.querySelector(".commune-name");
+    const population = section.querySelector(".population");
+    const departmentValue = section.querySelector(".department");
+    const region = section.querySelector(".region");
+    const postalCodes = section.querySelector(".postal-codes");
     communeName.textContent = commune.nom;
     population.textContent = Number.isFinite(commune.population)
         ? `${commune.population.toLocaleString("fr-FR")} habitants`
@@ -62,6 +63,8 @@ function showCommune(commune, departmentLabel) {
         ? commune.codesPostaux.join(", ")
         : "Indisponible";
     details.hidden = false;
+    section.querySelector(".empty-slot").hidden = true;
+    statusMessage.textContent = `${commune.nom} ajoutée dans Commune ${slot.value.toUpperCase()}.`;
     communeName.focus();
 }
 
