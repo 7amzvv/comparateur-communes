@@ -3,6 +3,12 @@ const field = document.querySelector("#query");
 const submit = form.querySelector("button");
 const statusMessage = document.querySelector("#status");
 const resultsList = document.querySelector("#commune-results");
+const details = document.querySelector("#commune-details");
+const communeName = document.querySelector("#commune-name");
+const population = document.querySelector("#population");
+const departmentValue = document.querySelector("#department");
+const region = document.querySelector("#region");
+const postalCodes = document.querySelector("#postal-codes");
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -12,6 +18,7 @@ form.addEventListener("submit", async (event) => {
 
     const search = field.value.trim();
     resultsList.replaceChildren();
+    details.hidden = true;
     if (!search) {
         statusMessage.textContent = "Saisis un nom ou un code postal.";
         return;
@@ -27,7 +34,11 @@ form.addEventListener("submit", async (event) => {
             const departmentLabel = department?.nom
                 ? `${department.nom}${department.code ? ` (${department.code})` : ""}`
                 : department?.code ?? "Département indisponible";
-            item.textContent = `${commune.nom} — ${departmentLabel}`;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = `${commune.nom} — ${departmentLabel}`;
+            button.addEventListener("click", () => showCommune(commune, departmentLabel));
+            item.append(button);
             resultsList.append(item);
         }
         statusMessage.textContent = communes.length === 0
@@ -39,6 +50,20 @@ form.addEventListener("submit", async (event) => {
         submit.disabled = false;
     }
 });
+
+function showCommune(commune, departmentLabel) {
+    communeName.textContent = commune.nom;
+    population.textContent = Number.isFinite(commune.population)
+        ? `${commune.population.toLocaleString("fr-FR")} habitants`
+        : "Indisponible";
+    departmentValue.textContent = departmentLabel;
+    region.textContent = commune.region?.nom ?? "Indisponible";
+    postalCodes.textContent = Array.isArray(commune.codesPostaux) && commune.codesPostaux.length > 0
+        ? commune.codesPostaux.join(", ")
+        : "Indisponible";
+    details.hidden = false;
+    communeName.focus();
+}
 
 async function findCommunes(search) {
     const url = new URL("https://geo.api.gouv.fr/communes");

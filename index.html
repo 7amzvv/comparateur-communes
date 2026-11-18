@@ -16,6 +16,19 @@
         </form>
         <p id="status" role="status"></p>
         <ul id="commune-results" aria-label="Communes trouvées"></ul>
+        <section id="commune-details" aria-labelledby="commune-name" hidden>
+            <h2 id="commune-name" tabindex="-1"></h2>
+            <dl>
+                <dt>Population</dt>
+                <dd id="population"></dd>
+                <dt>Département</dt>
+                <dd id="department"></dd>
+                <dt>Région</dt>
+                <dd id="region"></dd>
+                <dt>Codes postaux</dt>
+                <dd id="postal-codes"></dd>
+            </dl>
+        </section>
     </main>
 </body>
 </html>
